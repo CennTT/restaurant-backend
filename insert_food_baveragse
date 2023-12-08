@@ -1,0 +1,44 @@
+from app import app
+from models import db, Food, Beverage
+
+# db_uri = 'mysql://root:@127.0.0.1/restaurant'
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+
+def insert_food_data():
+    foods = [
+        'Pizza', 'Burger', 'Salad', 'Pasta', 'Sandwich',
+        'Steak', 'Sushi', 'Tacos', 'Fried Chicken', 'Ramen',
+        'Lasagna', 'Curry', 'Burrito', 'Grilled Cheese', 'Pad Thai'
+    ]
+
+    for food in foods:
+        new_food = Food(name=food)
+        db.session.add(new_food)
+
+    db.session.commit()
+    print("Sample food data inserted successfully!")
+
+
+def insert_beverage_data():
+    beverages = [
+        'Coffee', 'Tea', 'Soda', 'Juice', 'Smoothie',
+        'Beer', 'Wine', 'Cocktail', 'Lemonade', 'Milkshake',
+        'Iced Tea', 'Hot Chocolate', 'Limeade', 'Iced Coffee', 'Margarita'
+    ]
+
+    for beverage in beverages:
+        new_beverage = Beverage(name=beverage)
+        db.session.add(new_beverage)
+
+    db.session.commit()
+    print("Sample beverage data inserted successfully!")
+
+if __name__ == '__main__':
+    with app.app_context():
+        # Insert sample data
+        insert_food_data()
+        insert_beverage_data()
