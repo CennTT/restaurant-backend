@@ -1,5 +1,5 @@
 from app import app
-from models import db, Food, Beverage
+from models import db, FoodAndBeverage
 
 # db_uri = 'mysql://root:@127.0.0.1/restaurant'
 
@@ -16,7 +16,7 @@ def insert_food_data():
     ]
 
     for food in foods:
-        new_food = Food(name=food)
+        new_food = FoodAndBeverage(name=food, type='food')
         db.session.add(new_food)
 
     db.session.commit()
@@ -31,7 +31,7 @@ def insert_beverage_data():
     ]
 
     for beverage in beverages:
-        new_beverage = Beverage(name=beverage)
+        new_beverage = FoodAndBeverage(name=beverage, type='beverage')
         db.session.add(new_beverage)
 
     db.session.commit()

@@ -2,16 +2,22 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class Food(db.Model):
+class FoodAndBeverage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
+    type = db.Column(db.String(20))
 
     def __repr__(self):
-        return f'<Food {self.name}>'
+        return f'<Item {self.name} - Type: {self.type}>'
 
-class Beverage(db.Model):
+class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    table_number = db.Column(db.Integer)
+    status = db.Column(db.String(20))
+    items = db.relationship('OrderItem', backref='order')
 
-    def __repr__(self):
-        return f'<Beverage {self.name}>'
+class OrderItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('food_and_beverage.id'))
+    quantity = db.Column(db.Integer)
