@@ -42,7 +42,8 @@ def get_foods():
             food_n_baverage_list.append({
                 'id': item.id,
                 'name': item.name,
-                'type': item.type
+                'type': item.type,
+                'price': item.price
             })
         print(len(food_n_baverage_list))
         return jsonify({'foods': food_n_baverage_list})
@@ -56,6 +57,7 @@ def update_food_or_beverage(item_id):
         data = request.json
         name = data.get('name')
         item_type = data.get('type')
+        price = data.get('price')
 
         item = FoodAndBeverage.query.get(item_id)
         if not item:
@@ -65,6 +67,8 @@ def update_food_or_beverage(item_id):
             item.name = name
         if item_type:
             item.type = item_type
+        if price:
+            item.price = price
 
         db.session.commit()
 
@@ -95,9 +99,10 @@ def create_order():
         data = request.json
         table_number = data.get('table_number')
         items = data.get('items')
+        total_price = data.get('total_price')
         status = data.get('status', 'open')  
 
-        new_order = Order(table_number=table_number, status=status)
+        new_order = Order(table_number=table_number, status=status, total_price=total_price)
         for item in items:
             order_item = OrderItem(quantity=item['quantity'], item_id=item['item_id'])
             new_order.items.append(order_item)
