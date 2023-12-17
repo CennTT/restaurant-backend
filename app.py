@@ -22,8 +22,9 @@ def create_new_food_or_beverage():
         data = request.json
         name = data.get('name')
         item_type = data.get('type')
+        price = data.get('price')
 
-        new_item = FoodAndBeverage(name=name, type=item_type)
+        new_item = FoodAndBeverage(name=name, type=item_type, price=price)
         db.session.add(new_item)
         db.session.commit()
 
