@@ -7,6 +7,7 @@ class FoodAndBeverage(db.Model):
     name = db.Column(db.String(100))
     type = db.Column(db.String(20))
     price = db.Column(db.Float)
+    path = db.Column(db.String(255))
 
     def __repr__(self):
         return f'<Item {self.name} - Type: {self.type}>'

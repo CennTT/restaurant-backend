@@ -23,8 +23,9 @@ def create_new_food_or_beverage():
         name = data.get('name')
         item_type = data.get('type')
         price = data.get('price')
+        path = data.get('path')
 
-        new_item = FoodAndBeverage(name=name, type=item_type, price=price)
+        new_item = FoodAndBeverage(name=name, type=item_type, price=price, path=path)
         db.session.add(new_item)
         db.session.commit()
 
@@ -44,9 +45,9 @@ def get_foods():
                 'id': item.id,
                 'name': item.name,
                 'type': item.type,
-                'price': item.price
+                'price': item.price,
+                'path': item.path
             })
-        print(len(food_n_baverage_list))
         return jsonify({'foods': food_n_baverage_list})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -59,6 +60,7 @@ def update_food_or_beverage(item_id):
         name = data.get('name')
         item_type = data.get('type')
         price = data.get('price')
+        path = data.get('path')
 
         item = FoodAndBeverage.query.get(item_id)
         if not item:
@@ -70,6 +72,8 @@ def update_food_or_beverage(item_id):
             item.type = item_type
         if price:
             item.price = price
+        if path:
+            item.path = path
 
         db.session.commit()
 
