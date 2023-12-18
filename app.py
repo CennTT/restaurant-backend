@@ -137,7 +137,7 @@ def edit_order(table_number):
             existing_order_item = OrderItem.query.filter_by(order_id=order.id, item_id=item_id).first()
 
             if existing_order_item:
-                existing_order_item.quantity += quantity
+                existing_order_item.quantity = quantity
             else:
                 new_order_item = OrderItem(quantity=quantity, item_id=item_id)
                 order.items.append(new_order_item)
@@ -147,6 +147,26 @@ def edit_order(table_number):
         return jsonify({'message': 'Order updated successfully!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+@app.route('/api/v1/orders/<int:table_number>/status', methods=['PUT'])
+def edit_order_status(table_number):
+    try:
+        data = request.json
+        new_status = data.get('status')
+
+        order = Order.query.filter_by(table_number=table_number).first()
+        if not order:
+            return jsonify({'message': 'Order not found for the given table number!'}), 404
+
+        # Updating the status of the order
+        order.status = new_status
+        db.session.commit()
+
+        return jsonify({'message': f'Order status updated to {new_status} successfully!'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 
 
