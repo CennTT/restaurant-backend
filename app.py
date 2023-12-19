@@ -155,17 +155,17 @@ def edit_order_status(table_number):
         data = request.json
         new_status = data.get('status')
 
-        order = Order.query.filter_by(table_number=table_number).first()
+        order = Order.query.filter_by(table_number=table_number, status='open').first()
         if not order:
-            return jsonify({'message': 'Order not found for the given table number!'}), 404
+            return jsonify({'message': 'Open order not found for the given table number!'}), 404
 
-        # Updating the status of the order
         order.status = new_status
         db.session.commit()
 
         return jsonify({'message': f'Order status updated to {new_status} successfully!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 
